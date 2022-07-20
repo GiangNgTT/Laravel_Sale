@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class , 'index']);
 Route::get('/type/{id}', [PageController::class , 'getLoaiSp']);
+Route::get('/add-to-cart/{id}', [PageController::class , 'addToCart'])->name('banhang.addtocart');

@@ -71,13 +71,13 @@
                             <div class="col-sm-4">
                                 <div class="single-item">
                                     <div class="single-item-header">
-                                        <a href="product.html"><img src="/source/image/product/{{ $sp->image }}"
+                                        <a href="product.html"><img src="/source/image/product/{{ $spkhac->image }}"
                                             alt="" style="width: 20em; height:20em"></a>
                                     </div>
                                     <div class="single-item-body">
-                                        <p class="single-item-title">{{ $sp->name }}</p>
+                                        <p class="single-item-title">{{ $spkhac->name }}</p>
                                         <p class="single-item-price">
-                                            <span>{{ $sp->price }}</span>
+                                            <span>{{ $spkhac->price }}</span>
                                         </p>
                                     </div>
                                     <div class="single-item-caption">
