@@ -93,9 +93,9 @@
                     <li><a href="index.html">Trang chủ</a></li>
                     <li><a href="#">Loại sản phẩm</a>
                         <ul class="sub-menu">
-                            {{-- @foreach($loai_sp as $loai)
-                                <li><a href="{{ route('loaisanpham', $loai->id)}}">{{ $loai->name}}</a></li>
-                           @endforeach --}}
+                            @foreach($loai_sp as $loai)
+                                <li><a href="/type/{{$loai->id}}">{{ $loai->name}}</a></li>
+                           @endforeach
                         </ul>
                     </li>
                     <li><a href="about.html">Giới thiệu</a></li>
