@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Customer;
+use App\Models\Bill;
+use App\Models\BillDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Facades\Date;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Slide;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
@@ -31,5 +37,107 @@ class PageController extends Controller
         $cart->add($product, $id);
         $request->session()->put('cart', $cart);
         return redirect()->back();
+    }
+    public function getDelItemCart($id){
+        $oldCart=Session::has('cart')?Session::get('cart'):null;
+        $cart=new Cart($oldCart);
+        $cart->removeItem($id);
+        Session::put('cart', $cart);
+        return redirect()->back();
+
+    }
+    public function getCheckout(){
+        return view('banhang.checkout');
+    }
+    public function postCheckout(Request $request){
+        $cart=Session::get('cart');
+        $customer = new Customer;
+        $customer->name=$request->name;
+        $customer->gender=$request->gender;
+        $customer->email=$request->email;
+        $customer->address=$request->address;
+        $customer->phone_number=$request->phone;
+        $customer->note=$request->notes;
+        $customer->save();
+
+        $bill = new Bill;
+        $bill->id_customer=$customer->id;
+        $bill->date_order=date('Y-m-d');
+        $bill->total = $cart->totalPrice;
+        $bill->payment = $request->payment_method;
+        $bill->note=$request->notes;
+        $bill->save();
+
+        foreach ($cart->items as $key=>$value){
+            $bill_detail = new BillDetail;
+            $bill_detail->id_bill= $bill->id;
+            $bill_detail->id_product = $key;
+            $bill_detail->quantity =  $value['qty'];
+            $bill_detail->unit_price = ($value['price']/$value['qty']);
+            $bill_detail->save();
+        }
+        Session::forget('cart');
+        return redirect()->back()->with('thongbao', 'Order sucessfully');
+    }
+
+    public function getLogin(){
+        return view('banhang.login');
+    }
+    
+    public function getSignup(){
+        return view('banhang.signup');
+    }
+    public function postSignup(Request $request){
+        $this->validate($request,
+            [
+                'email'=>'required|email|unique:users,email',
+                'password'=>'required|min:6|max:20',
+                'fullname'=>'required',
+                're_password'=>'required|same:password'
+            ],
+            [
+                'email.required'=>'Vui lòng nhập email',
+                'email.email'=>'Không đúng định dạng email',
+                'email.unique'=>'Email đã có người sử dụng',
+                'password.required'=>'Vui long nhập mật khẩu',
+                're_password.same'=>'Mật khẩu không giống nhau',
+                'password.min'=>'Mật khẩu ít nhất 6 kí tự'
+
+            ]);
+        $user = new User();
+        $user->full_name = $request->fullname;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->save();
+        return redirect()->back()->with('thanhcong','Tạo tài khoản thành công');
+    }
+
+    public function postLogin(Request $req){
+        $this->validate($req,
+        [
+            'email'=>'required|email',
+            'password'=>'required|min:6|max:20'
+        ],
+        [
+            'email.required'=>'Vui lòng nhập email',
+            'email.email'=>'Email không đúng định dạng',
+            'password.required'=>'Vui lòng nhập mật khẩu',
+            'password.min'=>'Mật khẩu ít nhất 6 kí tự',
+            'password.max'=>'Mật khẩu không quá 20 kí tự',
+
+        ]);
+
+        $credentials=array('email'=>$req->email, 'password'=>$req->password);
+        if(Auth::attempt($credentials)){
+            return redirect()->back()->with(['flag'=>'success', 'message'=> 'Đăng nhập thành công'] );
+        }else{
+            return redirect()->back()->with(['flag'=>'danger', 'message'=> 'Đăng nhập không thành công']);
+        }
+    }
+    public function postLogout(){
+        Auth::logout();
+        return redirect()->route('banhang.index');
     }
 }

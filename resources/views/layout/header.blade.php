@@ -9,9 +9,13 @@
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
-                    <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
-                    <li><a href="#">Đăng kí</a></li>
-                    <li><a href="#">Đăng nhập</a></li>
+                    @if(Auth::check())
+                    <li><a href="">Hello {{Auth::user()->full_name}}</a></li>
+                    <li><a href="{{'logout'}}">Đăng xuất</a></li>
+                    @else
+                    <li><a href="{{ route('banhang.signup' )}}">Đăng kí</a></li>
+                    <li><a href="{{ route('banhang.login' )}}">Đăng nhập</a></li>
+                    @endif
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -20,7 +24,7 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="index.html" id="logo"><img src="assets/dest/images/logo-cake.png" width="200px" alt=""></a>
+                <a href="" id="logo"><img src="assets/dest/images/logo-cake.png" width="200px" alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
@@ -39,6 +43,7 @@
                         <div class="beta-dropdown cart-body">
                             @foreach($productCarts as $product)
                             <div class="cart-item">
+                                <a class="cart-item-delete" href="{{ route('xoagiohang', $product['item']['id'] )}}"><i class="fa fa-times"></i></a>
                                 <div class="media">
                                     <a class="pull-left" href="#"><img src="source/image/product/{{ $product['item']['image'] }}" alt=""></a>
                                     <div class="media-body">
@@ -51,10 +56,20 @@
                                 </div>
                             </div>
                             @endforeach
+                            <div class="cart-caption">
+                                <div class="cart-total text-right">Subtotal: <span class="cart-total-value">{{ number_format(Session('cart')->totalPrice)}}đ</span></div>
+                              
+                                <div class="clearfix"></div>
+            
+                                <div class="center">
+                                    <div class="space10">&nbsp;</div>
+                                    <a href="{{ route('banhang.checkout')}}" class="beta-btn primary text-center">Checkout <i class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div> <!-- .cart -->
-                @endif
-                </div>
+                @endif     
+                </div>            
             </div>
             <div class="clearfix"></div>
         </div> <!-- .container -->
