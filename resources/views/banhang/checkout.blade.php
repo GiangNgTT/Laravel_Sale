@@ -3,14 +3,15 @@
 
 <div class="container">
     <div id="content">
-        
         <form action="{{ route('banhang.checkout')}}" method="post" class="beta-form-checkout">
             @csrf	
             <div class="row">
+                @if(Session::has('thongbao'))
+                    <div class="alert alert-success">{{ Session::get('thongbao')}}</div>
+                @endif
                 <div class="col-sm-6">
                     <h4>Đặt hàng</h4>
                     <div class="space20">&nbsp;</div>
-
                     <div class="form-block">
                         <label for="name">Họ tên*</label>
                         <input type="text" id="name" name="name" placeholder="Họ tên" required>
@@ -83,6 +84,12 @@
                                     <div class="payment_box payment_method_bacs" style="display: block;">
                                         Cửa hàng sẽ gửi hàng đến địa chỉ của bạn, bạn xem hàng rồi thanh toán tiền cho nhân viên giao hàng
                                     </div>						
+                                </li>
+
+                                <li class="payment_method_cheque">
+                                        <input id="payment_method_cheque" type="radio" class="input-radio" 
+                                        name="payment_method" value="VNPAY" data-order_button_text="">
+                                        <label for="payment_method_cheque">Thanh toán online</label>             
                                 </li>
 
                                 <li class="payment_method_cheque">

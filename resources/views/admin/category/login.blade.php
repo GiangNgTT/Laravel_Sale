@@ -10,16 +10,16 @@
     <title>Admin - Khoa Phạm</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/source/admin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="/source/admin/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/source/admin/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/source/admin/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -33,8 +33,12 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="" method="POST">
+                        <form role="form" action="{{ route('admin.category.login')}}" method="POST">
+                            @csrf
                             <fieldset>
+                                @if(Session::has('flag'))
+                                <div class="alert alert-{{Session::get('flag')}}">{{Session::get('message')}}</div>
+                                @endif
                                 <div class="form-group">
                                     <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
                                 </div>
