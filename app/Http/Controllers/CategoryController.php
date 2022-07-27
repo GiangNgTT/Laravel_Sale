@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -13,8 +16,20 @@ class CategoryController extends Controller
      */
 
     public function getCateList(){
-        return view('/admin/category/cate-list');
+        $cate = ProductType::all();
+        return view('admin.category.list', ['category'=>$cate]);
     }
+    public function getCateAdd(){
+       // return view('admin.category.list');
+    }
+    public function getCateEdit(){
+        // return view('admin.category.list');
+     }
+
+
+
+
+
     public function index()
     {
         //
@@ -38,7 +53,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        
     }
 
     /**

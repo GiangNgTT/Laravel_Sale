@@ -38,22 +38,34 @@ Route::post('signup', [PageController::class, 'postSignup'])->name('banhang.sign
 
 Route::get('logout', [PageController::class, 'postLogout'])->name('logout');
 
+
+// Admin
 Route::get('/admin/login', [UserController::class, 'getLogin'])->name('admin.category.login');
 Route::post('/admin/login', [UserController::class, 'postLogin'])->name('admin.category.login');
 // Route::get('/admin/logout',[UserController::class,'getLogout'])->name('admin.category.logout');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'adminLogin'], function () {
+Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'category'], function () {
-        // admin/category/danhsach
-        Route::get('/cate-list', [CategoryController::class, 'getCateList'])->name('admin.cate-list');
-        // Route::get('them',[CategoryController::class,'getCateAdd'])->name('admin.getCateAdd');
-        // Route::post('them',[CategoryController::class,'postCateAdd'])->name('admin.postCateAdd');
-        // Route::get('xoa/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
-        // Route::get('sua/{id}',[CategoryController::class,'getCateEdit'])->name('admin.getCateEdit');
-        // Route::post('sua/{id}',[CategoryController::class,'postCateEdit'])->name('admin.postCateEdit');
+        // admin/category/list
+        Route::get('list', [CategoryController::class, 'getCateList'])->name('admin.cate-list');
+        Route::get('add',[CategoryController::class,'getCateAdd'])->name('admin.getCateAdd');
+        Route::post('add',[CategoryController::class,'postCateAdd'])->name('admin.postCateAdd');
+        Route::get('delete/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
+        Route::get('edit/{id}',[CategoryController::class,'getCateEdit'])->name('admin.getCateEdit');
+        Route::post('edit/{id}',[CategoryController::class,'postCateEdit'])->name('admin.postCateEdit');
     });
 
+
+    // Route::group(['prefix' => 'news'], function () {
+    //     // admin/category/cate-list
+    //     Route::get('cate-list', [CategoryController::class, 'getCateList'])->name('admin.cate-list');
+    //     Route::get('add',[CategoryController::class,'getCateAdd'])->name('admin.getCateAdd');
+    //     Route::post('add',[CategoryController::class,'postCateAdd'])->name('admin.postCateAdd');
+    //     Route::get('delete/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
+    //     Route::get('edit/{id}',[CategoryController::class,'getCateEdit'])->name('admin.getCateEdit');
+    //     Route::post('edit/{id}',[CategoryController::class,'postCateEdit'])->name('admin.postCateEdit');
+    // });
     //viết tiếp các route khác cho crud products, users,.... thì viết tiếp
 
     // Route::group(['prefix'=>'bill'],function(){
@@ -76,3 +88,7 @@ Route::get('/vnpay-index', function () {
 Route::post('/vnpay/create_payment', [PageController::class, 'createPayment'])->name('postCreatePayment');
 // //Route để gán cho key "vnp_ReturnUrl" ở bước 6
 Route::get('/vnpay/vnpay_return', [PageController::class, 'vnpayReturn'])->name('vnpayReturn');
+
+
+Route::get('/input-email', [PageController::class,'getInputEmail'])->name('getInputEmail');
+Route::post('/input-email',[PageController::class,'postInputEmail'])->name('postInputEmail');

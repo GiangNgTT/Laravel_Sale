@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function getLogin(){
         // return Hash::make('123456');
-        return view('admin.category.login');
+        return view('admin.user.login');
     }
     
     public function postLogin(Request $req){
