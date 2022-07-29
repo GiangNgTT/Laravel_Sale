@@ -37,7 +37,7 @@ Route::post('login', [PageController::class, 'postLogin'])->name('banhang.login'
 Route::get('signup', [PageController::class, 'getSignup'])->name('banhang.signup');
 Route::post('signup', [PageController::class, 'postSignup'])->name('banhang.signup');
 
-Route::get('logout', [PageController::class, 'getLogout'])->name('logout');
+Route::get('logout', [PageController::class, 'getLogout'])->name('banhang.logout');
 
 
 // Admin

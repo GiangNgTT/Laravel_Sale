@@ -275,7 +275,7 @@ class PageController extends Controller
             return redirect()->back()->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);
         }
     }
-    public function postLogout()
+    public function getLogout()
     {
         Auth::logout();
         return redirect()->route('banhang.index');

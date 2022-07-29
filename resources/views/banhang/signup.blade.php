@@ -16,8 +16,7 @@
 </div>
 
 <div class="container">
-    <div id="content">
-        
+    <div id="content"> 
         <form action="{{ route('banhang.signup')}}" method="post" class="beta-form-checkout">
             @csrf	
             <div class="row">

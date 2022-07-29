@@ -11,7 +11,7 @@
                 <ul class="top-details menu-beta l-inline">
                     @if (Auth::check())
                         <li><a href="">Hello {{ Auth::user()->full_name }}</a></li>
-                        <li><a href="{{ 'logout' }}">Đăng xuất</a></li>
+                        <li><a href="{{ route('banhang.logout') }}">Đăng xuất</a></li>
                     @else
                         <li><a href="{{ route('banhang.signup') }}">Đăng kí</a></li>
                         <li><a href="{{ route('banhang.login') }}">Đăng nhập</a></li>
@@ -24,7 +24,7 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="" id="logo"><img src="assets/dest/images/logo-cake.png" width="200px"
+                <a href="" id="logo"><img src="source/assets/dest/images/logo-cake.png" width="200px"
                         alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">
