@@ -15,6 +15,15 @@
 	<link rel="stylesheet" title="style" href="/source/assets/dest/css/style.css">
 	<link rel="stylesheet" href="/source/assets/dest/css/animate.css">
 	<link rel="stylesheet" title="style" href="/source/assets/dest/css/huong-style.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-BNXZ6NVVEJ"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-BNXZ6NVVEJ');
+	</script>
 </head>
 <body>
 	

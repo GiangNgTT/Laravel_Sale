@@ -22,12 +22,11 @@ class AdminLoginMiddldeware
             if($user->level==1 || $user->level==2){
                  return $next($request);
             }
-            // else{
-            //     return redirect('admin.page.login');
-            // }
+            else
+                return redirect('/admin/login');   
         }
-        else{
-            return redirect('admin.page.login');
-        }
+        else
+            return redirect('/admin/login');
+        
     }
 }

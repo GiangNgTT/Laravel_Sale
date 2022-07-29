@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,36 +37,40 @@ Route::post('login', [PageController::class, 'postLogin'])->name('banhang.login'
 Route::get('signup', [PageController::class, 'getSignup'])->name('banhang.signup');
 Route::post('signup', [PageController::class, 'postSignup'])->name('banhang.signup');
 
-Route::get('logout', [PageController::class, 'postLogout'])->name('logout');
+Route::get('logout', [PageController::class, 'getLogout'])->name('logout');
 
 
 // Admin
-Route::get('/admin/login', [UserController::class, 'getLogin'])->name('admin.category.login');
-Route::post('/admin/login', [UserController::class, 'postLogin'])->name('admin.category.login');
-// Route::get('/admin/logout',[UserController::class,'getLogout'])->name('admin.category.logout');
+Route::get('/admin/login', [UserController::class, 'getLogin'])->name('admin.login');
+Route::post('/admin/login', [UserController::class, 'postLogin'])->name('admin.login');
+Route::get('/admin/logout',[UserController::class,'getLogout'])->name('admin.logout');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware'=>'adminLogin'], function () {
 
     Route::group(['prefix' => 'category'], function () {
         // admin/category/list
         Route::get('list', [CategoryController::class, 'getCateList'])->name('admin.cate-list');
         Route::get('add',[CategoryController::class,'getCateAdd'])->name('admin.getCateAdd');
         Route::post('add',[CategoryController::class,'postCateAdd'])->name('admin.postCateAdd');
-        Route::get('delete/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
+        
         Route::get('edit/{id}',[CategoryController::class,'getCateEdit'])->name('admin.getCateEdit');
         Route::post('edit/{id}',[CategoryController::class,'postCateEdit'])->name('admin.postCateEdit');
+
+        Route::get('delete/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
     });
 
 
-    // Route::group(['prefix' => 'news'], function () {
-    //     // admin/category/cate-list
-    //     Route::get('cate-list', [CategoryController::class, 'getCateList'])->name('admin.cate-list');
-    //     Route::get('add',[CategoryController::class,'getCateAdd'])->name('admin.getCateAdd');
-    //     Route::post('add',[CategoryController::class,'postCateAdd'])->name('admin.postCateAdd');
-    //     Route::get('delete/{id}',[CategoryController::class,'getCateDelete'])->name('admin.getCateDelete');
-    //     Route::get('edit/{id}',[CategoryController::class,'getCateEdit'])->name('admin.getCateEdit');
-    //     Route::post('edit/{id}',[CategoryController::class,'postCateEdit'])->name('admin.postCateEdit');
-    // });
+    Route::group(['prefix' => 'news'], function () {
+        // admin/category/
+        Route::get('list', [NewsController::class, 'getNewsList'])->name('admin.news-list');
+        Route::get('add',[NewsController::class,'getNewsAdd'])->name('admin.getNewsAdd');
+        Route::post('add',[NewsController::class,'postNewsAdd'])->name('admin.postNewsAdd');
+        
+        Route::get('edit/{id}',[NewsController::class,'getNewsEdit'])->name('admin.getNewsEdit');
+        Route::post('edit/{id}',[NewsController::class,'postNewsEdit'])->name('admin.postNewsEdit');
+
+        Route::get('delete/{id}',[NewsController::class,'getNewsDelete'])->name('admin.getNewsDelete');
+    });
     //viết tiếp các route khác cho crud products, users,.... thì viết tiếp
 
     // Route::group(['prefix'=>'bill'],function(){

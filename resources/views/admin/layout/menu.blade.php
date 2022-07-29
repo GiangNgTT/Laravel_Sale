@@ -16,13 +16,37 @@
                 <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Category<span class="fa arrow"></span></a>
+                <a href="admin/category/list"><i class="fa fa-bar-chart-o fa-fw"></i>Thể loại<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">List Category</a>
+                        <a href="/admin/category/list">Danh sách</a>
                     </li>
                     <li>
-                        <a href="#">Add Category</a>
+                        <a href="/admin/category/add">Thêm</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="admin/news/list"><i class="fa fa-bar-chart-o fa-fw"></i>Tin tức<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/news/list">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="/admin/news/add">Thêm</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="admin/type_news/list"><i class="fa fa-bar-chart-o fa-fw"></i>Loại tin<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/admin/type_news/list">Danh sách</a>
+                    </li>
+                    <li>
+                        <a href="/admin/type_news/add">Thêm</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

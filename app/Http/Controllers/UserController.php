@@ -37,16 +37,16 @@ class UserController extends Controller
 
         $credentials=array('email'=>$req->email, 'password'=>$req->password);
         if(Auth::attempt($credentials)){
-            return redirect()->back()->with(['flag'=>'success', 'message'=> 'Đăng nhập thành công'] );
+            return redirect('admin/category/list');
         }else{
-            return redirect()->back()->with(['flag'=>'danger', 'message'=> 'Đăng nhập không thành công']);
+            return redirect('admin/login')->with('thongbao','Đăng nhập không thành công');
         }
     }
-    // public function postLogout(){
-    //     Auth::logout();
-    //     // return redirect()->route('banhang.index');
-    //     return 'ok';
-    // }
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect()->route('admin.login');
+    }
     public function index()
     {
         //

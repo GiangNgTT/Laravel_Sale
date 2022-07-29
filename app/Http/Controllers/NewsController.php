@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductType;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,16 +15,16 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getCateList()
+    public function getNewsList()
     {
-        $cate = ProductType::all();
-        return view('admin.category.list', ['cate' => $cate]);
+        $news_cate = News::all();
+        return view('admin.news.list', ['news_cate' => $news_cate]);
     }
-    public function getCateAdd()
+    public function getNewsAdd()
     {
-        return view('admin.category.add');
+        return view('admin.news.add');
     }
-    public function postCateAdd(Request $request)
+    public function postNewsAdd(Request $request)
     {
 
         $name = '';
@@ -39,32 +39,29 @@ class CategoryController extends Controller
         $this->validate(
             $request,
             [
-                // 'name' => 'required|unique:type_products, name|min:3|max:100'
-                'name' => 'required|min:3|max:100'
+                'title' => 'required',
+                'content' => 'required',
             ],
             [
-                'name.required' => 'Bạn chưa nhập tên thể loại',
-                // 'name.unique' => 'Tên thể loại đã tồn tại',
-                'name.min' => 'Tên thể loại phải có độ dài nhất 3 cho đến 100 kí tự',
-                'name.max' => 'Tên thể loại phải có độ dài nhất 3 cho đến 100 kí tự'
-
+                'title.required' => 'Bạn chưa nhập tiêu đề tin',
+                'content.required' => 'Bạn chưa nhập nội dung',
             ]
         );
 
-        $cate = new ProductType;
-        $cate->name = $request->name;
-        $cate->description = $request->description;
-        $cate->image = $name;
-        $cate->save();
+        $news_cate = new News;
+        $news_cate->title = $request->title;
+        $news_cate->content = $request->content;
+        $news_cate->image = $name;
+        $news_cate->save();
 
-        return redirect('/admin/category/add')->with('thongbao', 'Add successfully');
+        return redirect('/admin/news/add')->with('thongbao', 'Add successfully');
     }
-    public function getCateEdit($id)
+    public function getNewsEdit($id)
     {
-        $cate = ProductType::find($id);
-        return view('admin.category.edit', ['cate' => $cate]);
+        $news_cate = News::find($id);
+        return view('admin.news.edit', ['news_cate' => $news_cate]);
     }
-    public function postCateEdit(Request $request, $id)
+    public function postNewsEdit(Request $request, $id)
     {
         $name = '';
         if ($request->hasfile('image')) {
@@ -75,32 +72,29 @@ class CategoryController extends Controller
         }
 
         $this->validate($request,
-            [
-                // 'name' => 'required|unique:type_products, name|min:3|max:100'
-                'name' => 'required|min:3|max:100'
-
-            ],
-            [
-                'name.required' => 'Bạn chưa nhập tên thể loại',
-                // 'name.unique' => 'Tên thể loại đã tồn tại',
-                'name.min' => 'Tên thể loại phải có độ dài nhất 3 cho đến 100 kí tự',
-                'name.max' => 'Tên thể loại phải có độ dài nhất 3 cho đến 100 kí tự'
-            ]
+        [
+            'title' => 'required',
+            'content' => 'required',
+        ],
+        [
+            'title.required' => 'Bạn chưa nhập tiêu đề tin',
+            'content.required' => 'Bạn chưa nhập nội dung',
+        ]
         );
-        $cate = ProductType::find($id);
-        $cate->name = $request->name;
-        $cate->description = $request->description;
-        $cate->image = $name;
-        $cate->save();
+        $news_cate = News::find($id);
+        $news_cate->title = $request->title;
+        $news_cate->content = $request->content;
+        $news_cate->image = $name;
+        $news_cate->save();
 
-        return redirect('/admin/category/edit/'.$cate->id)->with('thongbao', 'Modify successfully');
+        return redirect('/admin/news/edit/'.$news_cate->id)->with('thongbao', 'Modify successfully');
     }
 
-    public function getCateDelete($id)
+    public function getNewsDelete($id)
     {
-        $cate = ProductType::find($id);
-        $cate->delete();
-        return redirect('/admin/category/list')->with('thongbao', 'Delete successfully');
+        $news_cate = News::find($id);
+        $news_cate->delete();
+        return redirect('/admin/news/list')->with('thongbao', 'Delete successfully');
     }
     public function index()
     {
