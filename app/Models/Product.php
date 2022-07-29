@@ -13,4 +13,8 @@ class Product extends Model
     public function billDetail(){
         return $this->hasMany('App\Models\BillDetail', 'id_product', 'id');
     }
+    public function wishlist()
+    {
+        return $this->belongsTo(Wishlist::class, 'id_product', 'id');
+    }
 }

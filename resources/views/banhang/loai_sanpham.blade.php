@@ -8,7 +8,7 @@
         </div>
         <div class="pull-right">
             <div class="beta-breadcrumb font-large">
-                <a href="index.html">Home</a> / <span>Sản phẩm</span>
+                <a href="{{route('banhang.index')}}">Home</a> / <span>Sản phẩm</span>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -49,6 +49,8 @@
                                     </div>
                                     <div class="single-item-caption">
                                         <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart', $sp->id)}}"><i class="fa fa-shopping-cart"></i></a>
+                                        <a class="add-to-wishlist" href="wishlist/add/{{ $sp->id }}" style="width: 40em"><i
+                                            class="fa fa-heart"></i></a>
                                         <a class="beta-btn primary" href="product.html">Details <i class="fa fa-chevron-right"></i></a>
                                         <div class="clearfix"></div>
                                     </div>
@@ -82,6 +84,8 @@
                                     </div>
                                     <div class="single-item-caption">
                                         <a class="add-to-cart pull-left" href="shopping_cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                        <a class="add-to-wishlist" href="wishlist/add/{{ $sp->id }}" style="width:40em"><i
+                                            class="fa fa-heart"></i></a>
                                         <a class="beta-btn primary" href="product.html">Details <i class="fa fa-chevron-right"></i></a>
                                         <div class="clearfix"></div>
                                     </div>

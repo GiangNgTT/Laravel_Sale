@@ -4,6 +4,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishListController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SlideController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,7 +26,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [PageController::class, 'index'])->name('banhang.index');
-Route::get('/type/{id}', [PageController::class, 'getLoaiSp']);
+Route::get('/type/{id}', [PageController::class, 'getLoaiSp'])->name('banhang.loai_sanpham');
+Route::get('/detail/{id}', [PageController::class, 'getDetail'])->name('banhang.detail');
+
+Route::post('/comment/{id}', [CommentController::class, 'AddComment'])->name('addcomment');
 
 Route::get('/add-to-cart/{id}', [PageController::class, 'addToCart'])->name('banhang.addtocart');
 Route::get('del-cart/{id}', [PageController::class, 'getDelItemCart'])->name('xoagiohang');
@@ -38,6 +44,12 @@ Route::get('signup', [PageController::class, 'getSignup'])->name('banhang.signup
 Route::post('signup', [PageController::class, 'postSignup'])->name('banhang.signup');
 
 Route::get('logout', [PageController::class, 'getLogout'])->name('banhang.logout');
+
+// Route::prefix('wishlist')->group(function () {
+    Route::get('/wishlist/add/{id}', [WishListController::class, 'AddWishlist'])->name('addWishList');
+    Route::get('/wishlist/delete/{id}', [WishListController::class, 'DeleteWishlist']);
+    Route::get('/wishlist/order', [WishListController::class, 'OrderWishlist'])->name('wishlist.order');
+// });
 
 
 // Admin
@@ -71,19 +83,30 @@ Route::group(['prefix' => 'admin', 'middleware'=>'adminLogin'], function () {
 
         Route::get('delete/{id}',[NewsController::class,'getNewsDelete'])->name('admin.getNewsDelete');
     });
-    //viết tiếp các route khác cho crud products, users,.... thì viết tiếp
+    
+    Route::group(['prefix' => 'slide'], function () {
+        // admin/category/
+        Route::get('list', [SlideController::class, 'getSlideList'])->name('admin.slide-list');
+        Route::get('add',[SlideController::class,'getSlideAdd'])->name('admin.getSlideAdd');
+        Route::post('add',[SlideController::class,'postSlideAdd'])->name('admin.postSlideAdd');
+        
+        Route::get('edit/{id}',[SlideController::class,'getSlideEdit'])->name('admin.getSlideEdit');
+        Route::post('edit/{id}',[SlideController::class,'postSlideEdit'])->name('admin.postSlideEdit');
 
-    // Route::group(['prefix'=>'bill'],function(){
-    //     // admin/bill/{status}
-    //     Route::get('{status}',[BillController::class,'getBillList'])->name('admin.getBillList');
+        Route::get('delete/{id}',[SlideController::class,'getSlideDelete'])->name('admin.getSlideDelete');
+    });
 
-    //     //by laravel request
-    //     Route::get('{id}/{status}',[BillController::class,'updateBillStatus'])->name('admin.updateBillStatus');
-    //     //by ajax request
-    //     Route::post('updateBillStatusAjax',[BillController::class,'updateBillStatusAjax'])->name('admin.updateBillStatusAjax');
+    Route::group(['prefix'=>'bill'],function(){
+        // admin/bill/{status}
+        Route::get('{status}',[BillController::class,'getBillList'])->name('admin.getBillList');
 
-    //     Route::post('{id}',[BillController::class,'cancelBill'])->name('admin.cancelBill');
-    // });
+        //by laravel request
+        Route::get('{id}/{status}',[BillController::class,'updateBillStatus'])->name('admin.updateBillStatus');
+        //by ajax request
+        Route::post('updateBillStatusAjax',[BillController::class,'updateBillStatusAjax'])->name('admin.updateBillStatusAjax');
+
+        Route::post('{id}',[BillController::class,'cancelBill'])->name('admin.cancelBill');
+    });
 
 });
 Route::get('/vnpay-index', function () {

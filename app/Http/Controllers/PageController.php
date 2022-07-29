@@ -6,12 +6,12 @@ use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Bill;
 use App\Models\BillDetail;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Facades\Date;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Slide;
-// use App\Mail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +33,16 @@ class PageController extends Controller
         $sp_khac =  Product::where('id_type', '<>', $type)->paginate(3);
         return view('banhang.loai_sanpham', compact('sp_theoloai', 'loai_sp', 'sp_khac'));
     }
+
+    public function getDetail(Request $request)
+    {
+        $sanpham = Product::where('id', $request->id)->first();
+        $splienquan = Product::where('id', '<>', $sanpham->id, 'and', 'id_type', '=', $sanpham->id_type,)->paginate(3);
+        $comments = Comment::where('id_product', $request->id)->get();
+        return view('banhang.detail_product', compact('sanpham', 'splienquan', 'comments'));
+    }
+
+
     public function addToCart(Request $request, $id)
     {
         $product = Product::find($id);
@@ -84,7 +94,7 @@ class PageController extends Controller
                 $bill_detail->unit_price = ($value['price'] / $value['qty']);
                 $bill_detail->save();
             }
-        } else { //nếu thanh toán là vnpay
+        } else {
             $cart = Session::get('cart');
             return view('/vnpay/vnpay-index', compact('cart'));
         }
@@ -138,10 +148,7 @@ class PageController extends Controller
 
         $vnp_Url = env('VNP_URL') . "?" . $query;
         if (env('VNP_HASHSECRECT')) {
-            // $vnpSecureHash = md5($vnp_HashSecret . $hashdata);
-            //$vnpSecureHash = hash('sha256', env('VNP_HASHSECRECT'). $hashdata);
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, env('VNP_HASHSECRECT')); //  
-            // $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, env('VNP_HASHSECRECT')); 
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
         //dd($vnp_Url);
@@ -152,22 +159,6 @@ class PageController extends Controller
     //ham nhan get request tra ve tu vnpay
     public function vnpayReturn(Request $request)
     {
-        //dd($request->all());
-        // if($request->vnp_ResponseCode=='00'){
-        //     $secureHash = $request->query('vnp_SecureHash');
-        //     if ($secureHash == env('VNP_HASHSECRECT')) {
-        //      $cart=Session::get('cart');
-
-        //      //lay du lieu vnpay tra ve
-        //      $vnpay_Data=$request->all();
-
-        //      //insert du lieu vao bang payments
-        //      //.........
-
-        //     //truyen vnpay_Data vao trang vnpay_return
-        //     return view('vnpay_return',compact('vnpay_Data'));
-        //     }
-        // }
         //PHIEEN BAN 2022
         $vnp_SecureHash = $request->vnp_SecureHash;
         //echo $vnp_SecureHash;
@@ -270,6 +261,7 @@ class PageController extends Controller
 
         $credentials = array('email' => $req->email, 'password' => $req->password);
         if (Auth::attempt($credentials)) {
+             Session::put("user",User::where('email','=',$req->email)->first());
             return redirect()->back()->with(['flag' => 'success', 'message' => 'Đăng nhập thành công']);
         } else {
             return redirect()->back()->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);

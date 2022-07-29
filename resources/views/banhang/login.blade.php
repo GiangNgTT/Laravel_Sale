@@ -17,7 +17,6 @@
 
 <div class="container">
     <div id="content">
-        
         <form action="{{ route('banhang.login')}}" method="post" class="beta-form-checkout">
             @csrf
             <div class="row">
